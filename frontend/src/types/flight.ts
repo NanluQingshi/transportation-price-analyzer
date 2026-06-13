@@ -55,6 +55,33 @@ export type Airport = z.infer<typeof airportSchema>
 export type RouteSummary = z.infer<typeof routeSummarySchema>
 export type DashboardResponse = z.infer<typeof dashboardResponseSchema>
 
+export const priceDataPointSchema = z.object({
+  date: z.string(),
+  min_price: z.number(),
+  avg_price: z.number(),
+  max_price: z.number(),
+  currency: z.string(),
+})
+
+export const priceStatsSchema = z.object({
+  historical_min: z.number(),
+  historical_avg: z.number(),
+  current_price: z.number().nullable(),
+  price_level: z.enum(['low', 'below_average', 'average', 'above_average', 'high']),
+})
+
+export const trendsResponseSchema = z.object({
+  origin: z.string(),
+  destination: z.string(),
+  days: z.number(),
+  data_points: z.array(priceDataPointSchema),
+  stats: priceStatsSchema,
+})
+
+export type PriceDataPoint = z.infer<typeof priceDataPointSchema>
+export type PriceStats = z.infer<typeof priceStatsSchema>
+export type TrendsResponse = z.infer<typeof trendsResponseSchema>
+
 export type CabinClass = 'ECONOMY' | 'BUSINESS' | 'FIRST'
 
 export interface SearchParams {

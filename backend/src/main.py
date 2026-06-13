@@ -5,7 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.dashboard import router as dashboard_router
 from src.api.health import router as health_router
 from src.api.search import router as search_router
+from src.api.trends import router as trends_router
 from src.config import settings
+from src.scheduler.jobs import create_scheduler
 
 structlog.configure(
     wrapper_class=structlog.make_filtering_bound_logger(
@@ -30,3 +32,15 @@ app.add_middleware(
 app.include_router(health_router, prefix="/api")
 app.include_router(search_router, prefix="/api")
 app.include_router(dashboard_router, prefix="/api")
+app.include_router(trends_router, prefix="/api")
+
+
+@app.on_event("startup")
+async def startup() -> None:
+    scheduler = create_scheduler()
+    scheduler.start()
+
+
+@app.on_event("shutdown")
+async def shutdown() -> None:
+    pass

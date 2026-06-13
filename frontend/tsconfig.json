@@ -10,6 +10,7 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noEmit": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "paths": {
