@@ -2,6 +2,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.chat import router as chat_router
 from src.api.dashboard import router as dashboard_router
 from src.api.health import router as health_router
 from src.api.search import router as search_router
@@ -33,6 +34,7 @@ app.include_router(health_router, prefix="/api")
 app.include_router(search_router, prefix="/api")
 app.include_router(dashboard_router, prefix="/api")
 app.include_router(trends_router, prefix="/api")
+app.include_router(chat_router, prefix="/api")
 
 
 @app.on_event("startup")
