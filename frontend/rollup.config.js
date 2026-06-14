@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import replace from '@rollup/plugin-replace'
 import typescript from '@rollup/plugin-typescript'
 import postcss from 'rollup-plugin-postcss'
+import terser from '@rollup/plugin-terser'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
@@ -28,5 +29,6 @@ export default {
       minimize: !isDev,
       modules: { generateScopedName: isDev ? '[name]__[local]' : '[hash:base64:6]' },
     }),
-  ],
+    !isDev && terser({ compress: { drop_console: true }, format: { comments: false } }),
+  ].filter(Boolean),
 }
