@@ -1,3 +1,7 @@
+import logging
+from contextlib import asynccontextmanager
+from collections.abc import AsyncGenerator
+
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,20 +16,34 @@ from src.scheduler.jobs import create_scheduler
 
 structlog.configure(
     wrapper_class=structlog.make_filtering_bound_logger(
-        getattr(__import__("logging"), settings.log_level)
+        getattr(logging, settings.log_level)
     ),
 )
+
+_scheduler = create_scheduler()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    _scheduler.start()
+    yield
+    _scheduler.shutdown(wait=False)
+
 
 app = FastAPI(
     title="Flight Price Analyzer",
     version="0.1.0",
     docs_url="/api/docs" if settings.debug else None,
     redoc_url=None,
+    lifespan=lifespan,
 )
+
+# 开发环境允许本地前端，生产环境由 Nginx 同域代理，不需要 CORS
+_cors_origins = ["http://localhost:3000"] if settings.debug else []
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=_cors_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -35,14 +53,3 @@ app.include_router(search_router, prefix="/api")
 app.include_router(dashboard_router, prefix="/api")
 app.include_router(trends_router, prefix="/api")
 app.include_router(chat_router, prefix="/api")
-
-
-@app.on_event("startup")
-async def startup() -> None:
-    scheduler = create_scheduler()
-    scheduler.start()
-
-
-@app.on_event("shutdown")
-async def shutdown() -> None:
-    pass
