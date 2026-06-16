@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Layout } from '@/components/Layout'
 import { AirportInput } from '@/components/AirportInput'
 import { FlightCard } from '@/components/FlightCard'
+import { Spinner } from '@/components/Spinner'
 import { useFlightSearch } from './hooks/useFlightSearch'
 import type { CabinClass } from '@/types/flight'
 
@@ -105,8 +106,9 @@ export default function SearchPage() {
         <button
           onClick={handleSearch}
           disabled={isLoading || !origin || !destination || !departureDate}
-          className="w-full sm:w-auto px-8 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full sm:w-auto px-8 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
         >
+          {isLoading && <Spinner size="sm" className="border-white border-t-blue-200" />}
           {isLoading ? '搜索中…' : '搜索'}
         </button>
       </div>
