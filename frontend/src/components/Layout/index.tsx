@@ -10,6 +10,7 @@ const navItems = [
   { to: '/search', label: '搜索机票' },
   { to: '/trends', label: '价格趋势' },
   { to: '/chat', label: '智能分析' },
+  { to: '/routes', label: '关注航线' },
 ]
 
 /** 全局页面布局，包含顶部导航栏 */
