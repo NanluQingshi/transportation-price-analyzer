@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Layout } from '@/components/Layout'
 import { AirportInput } from '@/components/AirportInput'
 import { PriceChart } from '@/components/PriceChart'
+import { Spinner } from '@/components/Spinner'
 import { usePriceTrends } from './hooks/usePriceTrends'
 import type { PriceStats } from '@/types/flight'
 
@@ -95,8 +96,8 @@ export default function TrendsPage() {
             请先选择出发地和目的地
           </div>
         ) : isLoading ? (
-          <div className="flex items-center justify-center h-64 text-gray-400 text-sm">
-            加载中…
+          <div className="flex items-center justify-center h-64">
+            <Spinner size="lg" />
           </div>
         ) : isError ? (
           <div className="flex items-center justify-center h-64 text-red-400 text-sm">

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Layout } from '@/components/Layout'
 import { AirportInput } from '@/components/AirportInput'
+import { Spinner } from '@/components/Spinner'
 import { createRoute, deleteRoute, fetchRoutes } from '@/services/routesApi'
 import type { RouteResponse } from '@/types/routes'
 
@@ -137,7 +138,9 @@ export default function RoutesPage() {
         {/* 航线列表 */}
         <div className="bg-white border border-gray-200 rounded-xl px-5">
           {isLoading && (
-            <div className="py-12 text-center text-gray-400 text-sm">加载中…</div>
+            <div className="py-12 flex justify-center">
+              <Spinner />
+            </div>
           )}
           {!isLoading && routes.length === 0 && (
             <div className="py-12 text-center text-gray-400 text-sm">
