@@ -90,3 +90,7 @@ async def run_daily_snapshot() -> None:
     total = sum(c for c in counts if isinstance(c, int))
     errors = sum(1 for c in counts if isinstance(c, Exception))
     log.info("snapshot_job_finished", routes=len(routes), records_written=total, errors=errors)
+
+    # 快照写入完成后检查价格提醒
+    from src.services.alert_service import check_and_notify  # 局部导入避免循环依赖
+    await check_and_notify()

@@ -9,6 +9,7 @@ const SearchPage = lazy(() => import('@/pages/search'))
 const TrendsPage = lazy(() => import('@/pages/trends'))
 const ChatPage = lazy(() => import('@/pages/chat'))
 const RoutesPage = lazy(() => import('@/pages/routes'))
+const AlertsPage = lazy(() => import('@/pages/alerts'))
 
 function wrap(Page: ComponentType) {
   return (
@@ -26,4 +27,5 @@ export const router = createBrowserRouter([
   { path: '/trends', element: wrap(TrendsPage) },
   { path: '/chat', element: wrap(ChatPage) },
   { path: '/routes', element: wrap(RoutesPage) },
+  { path: '/alerts', element: wrap(AlertsPage) },
 ])

@@ -12,6 +12,7 @@ const navItems = [
   { to: '/trends', label: '价格趋势' },
   { to: '/chat', label: '智能分析' },
   { to: '/routes', label: '关注航线' },
+  { to: '/alerts', label: '价格提醒' },
 ]
 
 function NavItem({ to, label, onClick }: { to: string; label: string; onClick?: () => void }) {
