@@ -6,7 +6,7 @@ from datetime import date
 import structlog
 
 from src.adapters.amadeus import AmadeusAdapter
-from src.adapters.base import FlightOffer
+from src.adapters.base import AirportInfo, FlightOffer
 from src.cache.redis_client import cache_get, cache_set
 
 logger = structlog.get_logger(__name__)
@@ -72,6 +72,5 @@ async def search_flights(
     return offers, False, elapsed
 
 
-async def search_airports(query: str) -> list[dict[str, str]]:
-    results = await _amadeus.search_airports(query)
-    return [{"iata_code": r.iata_code, "name": r.name, "city": r.city, "country": r.country} for r in results]
+async def search_airports(query: str) -> list[AirportInfo]:
+    return await _amadeus.search_airports(query)

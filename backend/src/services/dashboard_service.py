@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 import structlog
-from sqlalchemy import func, select, text
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.models.price_snapshot import PriceSnapshot
@@ -69,8 +69,7 @@ async def _min_price_on_date(
         select(func.min(PriceSnapshot.price)).where(
             PriceSnapshot.origin == origin,
             PriceSnapshot.destination == destination,
-            PriceSnapshot.captured_at >= text(f"'{target}'::date"),
-            PriceSnapshot.captured_at < text(f"'{target + timedelta(days=1)}'::date"),
+            func.date(PriceSnapshot.captured_at) == target,
         )
     )
     val = result.scalar()

@@ -1,4 +1,3 @@
-import { apiClient } from './apiClient'
 import { chatEventSchema, type ChatEvent } from '@/types/chat'
 
 export async function* streamChat(message: string): AsyncGenerator<ChatEvent> {
@@ -39,6 +38,3 @@ export async function* streamChat(message: string): AsyncGenerator<ChatEvent> {
     }
   }
 }
-
-// 保留 apiClient 引用避免 unused import 警告
-void apiClient
