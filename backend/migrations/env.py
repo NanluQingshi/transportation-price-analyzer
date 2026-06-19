@@ -10,6 +10,7 @@ from alembic import context
 from src.config import settings
 from src.db.session import Base
 import src.models.airport  # noqa: F401
+import src.models.price_alert  # noqa: F401
 import src.models.price_snapshot  # noqa: F401
 import src.models.watched_route  # noqa: F401
 
